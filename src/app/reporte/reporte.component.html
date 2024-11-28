@@ -1,0 +1,37 @@
+<app-header></app-header>
+<div class="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+  
+    <h2 class="text-2xl font-bold mb-6 text-center">Generar Reporte</h2>
+  
+    <form (ngSubmit)="generarReporte()">
+      <div class="mb-4">
+        <label for="fechaInicio" class="text-gray-700 capitalize font-bold text-sm">Fecha de Inicio</label>
+        <input type="date" id="fechaInicio" [(ngModel)]="reporte.fechaInicio" name="fechaInicio" 
+          class="border w-1/3 p-2 mt-2 mx-5 placeholder-gray-400 rounded-md"
+          required>
+      </div>
+  
+      <div class="mb-4">
+        <label for="fechaFinal" class="text-gray-700 capitalize font-bold text-sm">Fecha Final</label>
+        <input type="date" id="fechaFinal" [(ngModel)]="reporte.fechaFinal" name="fechaFinal" 
+          class="border w-1/3 p-2 mt-2 mx-5 placeholder-gray-400 rounded-md"
+          required>
+      </div>
+  
+      <div class="mb-4">
+        <label for="transportista" class="text-gray-700 capitalize font-bold text-sm">Transportista</label>
+        <select id="transportista" [(ngModel)]="reporte.transportistaID" name="transportistaID" 
+          class="border w-2/3 p-2 mt-2 mx-5 placeholder-gray-400 rounded-md" required>
+          <option value="-1">Selecciona una opción</option>
+          <option *ngFor="let transportista of transportistas" [value]="transportista.transportistaID">
+            {{ transportista.descripcion }}
+          </option>
+        </select>
+      </div>
+  
+      <button type="submit" [disabled]="!isFormValid()" 
+        class="w-full py-2 px-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed">
+        Generar Reporte
+      </button>
+    </form>
+  </div>
