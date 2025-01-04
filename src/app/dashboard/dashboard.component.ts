@@ -8,7 +8,7 @@ import {HeaderComponent} from '../header/header.component'
   selector: 'app-dashboard',
   imports: [CommonModule,HeaderComponent,HeaderComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styles: ``
 })
 
 export class DashboardComponent {

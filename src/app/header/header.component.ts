@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   selector: 'app-header',
   imports: [CommonModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styles: ``
 })
 export class HeaderComponent implements OnInit {
   userName: string | undefined;
@@ -50,6 +50,9 @@ export class HeaderComponent implements OnInit {
   }
   optReporte(): void {
     this.router.navigate(['/reporte']);
+  }
+  optTransporte(): void{
+    this.router.navigate(['/transportistas'])
   }
   salir(): void {
     this.authService.logout();

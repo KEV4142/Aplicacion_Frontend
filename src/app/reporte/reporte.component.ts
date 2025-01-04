@@ -20,7 +20,7 @@ interface Transportista {
   selector: 'app-reporte',
   imports: [CommonModule,ReactiveFormsModule,FormsModule,HeaderComponent],
   templateUrl: './reporte.component.html',
-  styleUrl: './reporte.component.css'
+  styles: ``
 })
 export class ReporteComponent  implements OnInit{
   transportistas: Transportista[] = [];

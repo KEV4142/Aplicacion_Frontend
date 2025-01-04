@@ -40,7 +40,7 @@ interface ViajeResponse {
   selector: 'app-viajes',
   imports: [CommonModule,ReactiveFormsModule,FormsModule,HeaderComponent],
   templateUrl: './viajes.component.html',
-  styleUrl: './viajes.component.css'
+  styles: ``
 })
 
 export class ViajesComponent implements OnInit {
