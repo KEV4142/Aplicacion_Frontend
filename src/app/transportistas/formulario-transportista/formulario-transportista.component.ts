@@ -55,11 +55,9 @@ sel: string='';
 
   obtenerErrorCampoDescripcion(){
     let campo = this.form.controls.descripcion;
-
     if (campo.hasError('required')){
       return 'El campo Descripcion es requerido';
     }
-
     return "";
   }
 

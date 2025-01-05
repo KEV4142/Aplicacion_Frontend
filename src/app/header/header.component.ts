@@ -54,6 +54,9 @@ export class HeaderComponent implements OnInit {
   optTransporte(): void{
     this.router.navigate(['/transportistas'])
   }
+  optSucursal(): void{
+    this.router.navigate(['/sucursales'])
+  }
   salir(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

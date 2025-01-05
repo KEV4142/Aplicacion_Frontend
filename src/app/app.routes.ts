@@ -9,6 +9,9 @@ import { CrearTransportistaComponent } from './transportistas/crear-transportist
 import { EditarTransportistaComponent } from './transportistas/editar-transportista/editar-transportista.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuard } from './auth.guard';
+import { CrearSucursalComponent } from './sucursales/crear-sucursal/crear-sucursal.component';
+import { EditarSucursalComponent } from './sucursales/editar-sucursal/editar-sucursal.component';
+import { ListadoSucursalComponent } from './sucursales/listado-sucursal/listado-sucursal.component';
 
 
 export const appRoutes: Routes = [
@@ -21,5 +24,8 @@ export const appRoutes: Routes = [
   { path: 'transportistas', component: ListadoTransportistasComponent, canActivate: [AuthGuard] },
   { path: 'transportistas/crear', component: CrearTransportistaComponent, canActivate: [AuthGuard] },
   { path: 'transportistas/editar/:id', component: EditarTransportistaComponent, canActivate: [AuthGuard] },
+  { path: 'sucursales', component: ListadoSucursalComponent, canActivate: [AuthGuard] },
+  { path: 'sucursales/crear', component: CrearSucursalComponent, canActivate: [AuthGuard] },
+  { path: 'sucursales/editar/:id', component: EditarSucursalComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent },
 ];
