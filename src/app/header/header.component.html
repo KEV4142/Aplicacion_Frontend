@@ -3,6 +3,7 @@
     <div class="text-2xl font-bold text-gray-800">
       Bienvenido, <span class="text-blue-600">{{ userName }}</span>
     </div>
+  </header>
     <nav>
       <ul class="flex space-x-6">
         <li><a class="text-lg text-blue-500 hover:underline" (click)="optTablero()">Dashboard</a></li>
@@ -10,7 +11,7 @@
           <a class="text-lg text-blue-500 hover:underline" (click)="optViajes()">Registro de Viajes</a>
         </li>
         <li *ngIf="isAdmin()">
-          <a class="text-lg text-blue-500 hover:underline" (click)="optSucursales()">Registro de Colaboradores</a>
+          <a class="text-lg text-blue-500 hover:underline" (click)="optSucursalesColaboradores()">Registro de Colaboradores a Sucursales</a>
         </li>
         <li><a class="text-lg text-blue-500 hover:underline" (click)="optReporte()">Reporte</a></li>
         <li><a class="text-lg text-blue-500 hover:underline" (click)="optTransporte()">Transportistas</a></li>
@@ -20,5 +21,5 @@
         </li>
       </ul>
     </nav>
-  </header>
+  
 </div>

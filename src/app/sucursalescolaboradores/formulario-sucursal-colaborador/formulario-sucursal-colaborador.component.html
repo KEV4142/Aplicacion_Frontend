@@ -1,0 +1,53 @@
+<div class="flex items-center justify-center bg-gray-100">
+    <form class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg"
+     (submit)="guardarCambios()" [formGroup]="form">
+
+     <mat-form-field class="w-4/5" appearance="fill">
+        <mat-label class="text-gray-600 text-md">Sucursal</mat-label>
+        <mat-select [formControl]="form.controls.sucursalid" class="text-gray-700">
+          <mat-option *ngFor="let sucursal of sucursales" [value]="sucursal.sucursalID">
+            {{ sucursal.descripcion }}
+          </mat-option>
+        </mat-select>
+        <mat-error class="text-red-500 text-sm" *ngIf="form.controls.sucursalid.invalid && form.controls.sucursalid.touched">
+          {{ obtenerErrorCampoSucursalID() }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-4/5" appearance="fill">
+        <mat-label class="text-gray-600 text-md">Colaborador</mat-label>
+        <mat-select [formControl]="form.controls.colaboradorid" class="text-gray-700">
+          <mat-option *ngFor="let colaborador of colaboradores" [value]="colaborador.colaboradorID">
+            {{ cambioProper(colaborador.nombre) }}
+          </mat-option>
+        </mat-select>
+        <mat-error class="text-red-500 text-sm" *ngIf="form.controls.colaboradorid.invalid && form.controls.colaboradorid.touched">
+          {{ obtenerErrorCampoColaboradorID() }}
+        </mat-error>
+      </mat-form-field>
+
+        <mat-form-field class="w-4/5" appearance="fill">
+            <mat-label class="text-gray-600 text-md">Distancia</mat-label>
+            <input matInput type="number" [formControl]="form.controls.distancia" class="text-gray-700 focus:outline-none"/>
+            <mat-error class="text-red-500 text-sm">{{obtenerErrorCampoDistancia()}}</mat-error>
+        </mat-form-field>
+        
+        <mat-form-field class="w-4/5" appearance="fill">
+            <mat-label class="text-gray-600 text-md">Estado</mat-label>
+            <mat-select [formControl]="form.controls.estado" class="text-gray-700">
+              <mat-option *ngFor="let opcion of opciones" [value]="opcion.abr">
+                {{ opcion.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error class="text-red-500 text-sm" *ngIf="form.controls.estado.invalid && form.controls.estado.touched">
+              {{ obtenerErrorCampoEstado() }}
+            </mat-error>
+          </mat-form-field>
+    
+    
+        <div class="flex space-x-4 contenedor-botones">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300" type="submit" mat-flat-button [disabled]="form.invalid">Guardar cambios</button>
+            <a mat-stroked-button routerLink="/sucursalescolaboradores" class="text-blue-600 mr-4 hover:underline">Cancelar</a>
+        </div>
+    </form>
+    </div>

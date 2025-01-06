@@ -45,8 +45,8 @@ export class HeaderComponent implements OnInit {
   optViajes(): void {
     this.router.navigate(['/viajes']);
   }
-  optSucursales(): void {
-    this.router.navigate(['/colaboradores']);
+  optSucursalesColaboradores(): void {
+    this.router.navigate(['/sucursalescolaboradores']);
   }
   optReporte(): void {
     this.router.navigate(['/reporte']);
