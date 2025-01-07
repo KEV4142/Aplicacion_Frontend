@@ -6,11 +6,11 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Router, RouterLink } from '@angular/router';
 import { Colaboradores, Sucursal, SucursalesColaboradoresCreacionDTO, SucursalesColaboradoresDTO } from '../sucursales-colaboradores';
 import { environment } from '../../../environments/environment';
-import { AuthService } from '../../auth.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { HeaderService } from '../../header.service';
+import { RouterLink } from '@angular/router';
 
 interface Opcion {
   name: string;
@@ -20,7 +20,7 @@ interface Opcion {
 @Component({
   selector: 'app-formulario-sucursal-colaborador',
   standalone: true,
-  imports: [CommonModule,MatSelectModule,MatOptionModule,RouterLink, MatButtonModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule],
+  imports: [CommonModule,RouterLink,MatSelectModule,MatOptionModule,MatButtonModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule],
   templateUrl: './formulario-sucursal-colaborador.component.html',
   styles: ``
 })
@@ -41,15 +41,7 @@ export class FormularioSucursalColaboradorComponent implements OnInit{
     this.loadSucursales();
     this.loadColaboradores();
   }
-  getHeaders(): HttpHeaders{
-      const token = this.authService.getToken();
-      if (!token) {
-        throw new Error('Sin Autorizacion!!');
-      }
-      
-      return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    }
-    constructor(private authService: AuthService,private http: HttpClient,private router: Router ) {}
+  constructor(private headerService: HeaderService,private http: HttpClient ) {}
     
   @Input()
     modelo?: SucursalesColaboradoresDTO;
@@ -116,13 +108,13 @@ export class FormularioSucursalColaboradorComponent implements OnInit{
   }
 
   loadSucursales() {
-      const headers = this.getHeaders();
+      const headers = this.headerService.getHeaders();
         this.http.get<Sucursal[]>(`${environment.apiUrl}sucursales/activos`, { headers }).subscribe((data: Sucursal[]) => {
           this.sucursales = data;
         });
     }
   loadColaboradores() {
-      const headers = this.getHeaders();
+      const headers = this.headerService.getHeaders();
         this.http.get<Colaboradores[]>(`${environment.apiUrl}colaboradores/activos`, { headers }).subscribe((data: Colaboradores[]) => {
           this.colaboradores = data;
         });

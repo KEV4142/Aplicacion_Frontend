@@ -1,5 +1,3 @@
-/* export interface SucursalesColaboradores {
-} */
 export interface SucursalesColaboradoresCreacionDTO {
   sucursalID: number;
   colaboradorID: number;

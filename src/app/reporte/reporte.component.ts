@@ -2,11 +2,11 @@ import { Component , OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import {HeaderComponent} from '../header/header.component'
+import { HeaderService } from '../header.service';
 
 interface Transportista {
   transportistaID: number;
@@ -30,23 +30,14 @@ export class ReporteComponent  implements OnInit{
     fechaFinal: ''
   };
 
-  constructor(private authService: AuthService,private http: HttpClient, private router: Router) {}
+  constructor(private headerService: HeaderService,private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
     this.loadTransportistas();
   }
 
-  getHeaders(): HttpHeaders{
-    const token = this.authService.getToken();
-    if (!token) {
-      throw new Error('Sin Autorizacion!!');
-    }
-    
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  }
-
   loadTransportistas() {
-    const headers = this.getHeaders();
+    const headers = this.headerService.getHeaders();
     this.http.get<Transportista[]>(environment.apiUrl+'transportistas/activos', { headers }).subscribe((data: Transportista[]) => {
       this.transportistas = data;
     });
@@ -57,7 +48,7 @@ export class ReporteComponent  implements OnInit{
   }
 
   generarReporte() {
-    const headers = this.getHeaders();
+    const headers = this.headerService.getHeaders();
 
     const reporteData = {
       TransportistaID: this.reporte.transportistaID,

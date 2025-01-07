@@ -11,7 +11,13 @@ export function extraerErrores(obj: any): string[]{
 
     return mensajesDeError;
 }
+export function extraerErroresFormulario(obj: any): string{
+    const err = obj.error.error;
 
+    let mensajesDeError: string = err;
+
+    return mensajesDeError;
+}
 export function extraerErroresIdentity(obj: any): string[]{
     let mensajesDeError: string[] = [];
 

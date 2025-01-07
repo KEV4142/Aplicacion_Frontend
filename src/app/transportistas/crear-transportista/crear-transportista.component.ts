@@ -6,7 +6,6 @@ import { HeaderComponent } from '../../header/header.component';
 @Component({
   selector: 'app-crear-transportista',
   standalone: true,
-  //imports: [FormularioTransportistaComponent,CreacionRegistroComponent],
   imports: [CreacionRegistroComponent,HeaderComponent],
   templateUrl: './crear-transportista.component.html',
   styles: ``

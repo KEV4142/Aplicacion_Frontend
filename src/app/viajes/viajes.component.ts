@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
-import { AuthService } from '../auth.service';
 import { environment } from '../../environments/environment';
 import {HeaderComponent} from '../header/header.component'
+import { HeaderService } from '../header.service';
 
 interface Transportista {
   transportistaID: number;
@@ -58,24 +58,15 @@ export class ViajesComponent implements OnInit {
   sumaDistancias: number = 0;
   mensaje: string = '';
 
-  constructor(private authService: AuthService,private http: HttpClient,private router: Router ) {}
+  constructor(private headerService: HeaderService,private http: HttpClient,private router: Router ) {}
 
   ngOnInit() {
     this.loadTransportistas();
     this.loadSucursales();
   }
 
-  getHeaders(): HttpHeaders{
-    const token = this.authService.getToken();
-    if (!token) {
-      throw new Error('Sin Autorizacion!!');
-    }
-    
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  }
-
   loadTransportistas() {
-    const headers = this.getHeaders();
+    const headers = this.headerService.getHeaders();
     this.http.get<Transportista[]>(environment.apiUrl+'transportistas/activos', { headers }).subscribe((data: Transportista[]) => {
       this.transportistas = data;
     });
@@ -83,7 +74,7 @@ export class ViajesComponent implements OnInit {
 
 
   loadSucursales() {
-    const headers = this.getHeaders();
+    const headers = this.headerService.getHeaders();
       this.http.get<Sucursal[]>(`${environment.apiUrl}sucursales/activos`, { headers }).subscribe((data: Sucursal[]) => {
         this.sucursales = data;
       });
@@ -92,7 +83,7 @@ export class ViajesComponent implements OnInit {
 
   loadColaboradores(sucursalID: number) {
     if (sucursalID) {
-      const headers = this.getHeaders();
+      const headers = this.headerService.getHeaders();
       this.http.get<Colaboradores[]>(`${environment.apiUrl}sucursalescolaboradores/activos/${sucursalID}`, { headers }).subscribe((data: Colaboradores[]) => {
         this.colaboradores = data;
       });
@@ -125,7 +116,7 @@ export class ViajesComponent implements OnInit {
 
 
   registrarViaje() {
-    const headers = this.getHeaders();
+    const headers = this.headerService.getHeaders();
     const viajeData = {
       fecha: this.viaje.fecha,
       sucursalid: this.viaje.sucursalID,

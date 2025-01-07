@@ -38,8 +38,10 @@ export class LoginComponent {
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {
-          console.error('Error en el Login', err);
           this.errorMessage = 'Correo electrónico o contraseña incorrectos.';
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 5000);
         }
       });
     }

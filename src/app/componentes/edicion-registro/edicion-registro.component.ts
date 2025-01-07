@@ -2,10 +2,10 @@ import { Component, ComponentRef, inject, Input, OnInit, ViewChild, ViewContaine
 import { CargandoComponent } from '../cargando/cargando.component';
 import { MostrarErroresComponent } from '../mostrar-errores/mostrar-errores.component';
 import { Router } from '@angular/router';
-import { AuthService } from '../../auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { extraerErrores } from '../../funciones/extraerErrores';
+import { extraerErroresFormulario } from '../../funciones/extraerErrores';
 import { environment } from '../../../environments/environment';
+import { HeaderService } from '../../header.service';
 
 @Component({
   selector: 'app-edicion-registro',
@@ -15,18 +15,11 @@ import { environment } from '../../../environments/environment';
 })
 export class EdicionRegistroComponent<TDTO, TCreacionDTO> implements OnInit {
 
-  getHeaders(): HttpHeaders{
-        const token = this.authService.getToken();
-        if (!token) {
-          throw new Error('Sin Autorizacion!!');
-        }
-        return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      }
 
-  constructor(private authService: AuthService,private http: HttpClient,private router: Router ) {}
+  constructor(private headerService: HeaderService,private http: HttpClient,private router: Router ) {}
   
   ngOnInit(): void {
-    const headers = this.getHeaders();
+    const headers = this.headerService.getHeaders();
     this.http.get(environment.apiUrl+this.rutaListado+'/'+this.id, { headers }).subscribe(entidad => {
       this.cargarComponente(entidad);
     })
@@ -56,7 +49,7 @@ export class EdicionRegistroComponent<TDTO, TCreacionDTO> implements OnInit {
   @Input({required: true})
   formulario: any;
 
-  errores: string[] = [];
+  errores: string = '';
 
   cargando = true;
   
@@ -66,14 +59,17 @@ export class EdicionRegistroComponent<TDTO, TCreacionDTO> implements OnInit {
   private componentRef!: ComponentRef<any>;
 
   guardarCambios(entidad: TCreacionDTO) {
-    const headers = this.getHeaders();
+    const headers = this.headerService.getHeaders();
     this.http.put<TDTO>(environment.apiUrl+this.rutaListado+'/'+this.id , entidad, { headers }).subscribe({
           next: (response) => {
         this.router.navigate(['/'+this.rutaListado]);
       },
       error: err => {
-        const errores = extraerErrores(err);
+        const errores = extraerErroresFormulario(err);
         this.errores = errores;
+        setTimeout(() => {
+          this.errores = '';
+        }, 5000);
       }
     });
   }

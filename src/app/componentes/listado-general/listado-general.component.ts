@@ -6,11 +6,11 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { PaginacionDTO } from '../modelo/paginacion-dto';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-import { AuthService } from '../../auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { construirQueryParams } from '../funciones/construirQueryParams';
+import { construirQueryParams } from '../../funciones/construirQueryParams';
 import { environment } from '../../../environments/environment';
 import { CommonModule } from '@angular/common';
+import { HeaderService } from '../../header.service';
 
 @Component({
   selector: 'app-listado-general',
@@ -39,7 +39,7 @@ export class ListadoGeneralComponent<TDTO> implements OnInit {
   entidades!: TDTO[];
   cantidadTotalRegistros!: number;
 
-  constructor(private authService: AuthService,private http: HttpClient) {
+  constructor(private headerService: HeaderService,private http: HttpClient) {
   }
   ngOnInit(): void {
     if (!this.rutaBackend) {
@@ -48,13 +48,7 @@ export class ListadoGeneralComponent<TDTO> implements OnInit {
     }
     this.cargarRegistros();
   }
-  getHeaders(): HttpHeaders{
-        const token = this.authService.getToken();
-        if (!token) {
-          throw new Error('Sin Autorizacion!!');
-        }
-        return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      }
+
       
   actualizarPaginacion(datos: PageEvent) {
     this.paginacion = { PageNumber: datos.pageIndex + 1, PageSize: datos.pageSize };
@@ -63,11 +57,10 @@ export class ListadoGeneralComponent<TDTO> implements OnInit {
   }
 
   borrar(id: number) {
-    const headers = this.getHeaders();
+    const headers = this.headerService.getHeaders();
     this.http.put<TDTO>(environment.apiUrl+this.rutaBackend+'/estado/'+id , {
       "estado": "b"
     }, { headers }).subscribe(() => {
-      //this.paginacion.PageNumber = 1;
       this.cargarRegistros();
     })
   }
@@ -87,7 +80,7 @@ export class ListadoGeneralComponent<TDTO> implements OnInit {
       totalCount: number; 
       items: TDTO[] 
     }
-    >(environment.apiUrl+this.rutaBackend+'/paginacion', {headers: this.getHeaders(), params: queryParams}).subscribe((respuesta) => {
+    >(environment.apiUrl+this.rutaBackend+'/paginacion', {headers: this.headerService.getHeaders(), params: queryParams}).subscribe((respuesta) => {
       this.entidades = respuesta.items;
       this.cantidadTotalRegistros = respuesta.totalCount;
     });
